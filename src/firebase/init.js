@@ -5,7 +5,7 @@ import firestore from "firebase/firestore"
 import { API_KEY } from "./env"
 
 const config = {
-  apiKey: "AIzaSyBKyB4YQ9kdlghdMwC9Cla2S42cJcQWIb8",
+  apiKey: API_KEY,
   authDomain: "view-geo.firebaseapp.com",
   databaseURL: "https://view-geo.firebaseio.com",
   projectId: "view-geo",
