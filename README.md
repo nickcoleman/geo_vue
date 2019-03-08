@@ -19,3 +19,8 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+> Third party libraries and plugins
+
+ - [Materialize](https://materializecss.com/getting-started.html): CSS and Google Icons:
+ - [Firebase](http://firebase.google.com): Database, Authentication,and Hosting
