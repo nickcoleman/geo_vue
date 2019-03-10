@@ -57,10 +57,16 @@ export default {
               .auth()
               .createUserWithEmailAndPassword(this.email, this.password)
               .then(({ user }) => {
-                console.log("xxx cred user", user);
+                ref.set({
+                  alias: this.alias,
+                  geolocation: null,
+                  user_id: user.uid
+                });
+              })
+              .then(() => {
+                this.$router.push({ name: "GMap" });
               })
               .catch(err => {
-                console.log(err.message);
                 this.feedback = err.message;
               });
           }
