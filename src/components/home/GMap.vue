@@ -11,8 +11,8 @@ export default {
   name: "GMap",
   data() {
     return {
-      lat: 0,
-      lng: 0
+      lat: 40.75,
+      lng: -111.61
     };
   },
   methods: {
@@ -30,11 +30,12 @@ export default {
     // get current user
     let user = firebase.auth().currentUser;
     //get current location
-    if (navigator.geolocation) {
+    if (navigator.geolocation && user) {
       navigator.geolocation.getCurrentPosition(
         pos => {
           this.lat = pos.coords.latitude;
           this.lng = pos.coords.longitude;
+          console.log("xxx ", this.lat, this.lng);
           // find the user record and then update geocoords
           db.collection("users")
             .where("user_id", "==", user.uid)
@@ -63,8 +64,6 @@ export default {
       ); // cached location
     } else {
       // position centre by default values
-      console.log("huh");
-
       this.renderMap();
     }
   }

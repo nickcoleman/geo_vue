@@ -2,15 +2,16 @@
   <div class="navbar">
     <nav class="deep-purple darken-1">
       <div class="container">
-        <router-link class="brand-logo left" :to="{ name: 'GMap'}">GeoNinjas!</router-link>
+        <router-link class="brand-logo left" :to="{ name: 'GMap'}">Geo Vue</router-link>
         <ul class="right">
-          <li>
-            <router-link v-if="!loggedIn" :to="{ name: 'Signup' }">Signup</router-link>
+          <li v-if="!user">
+            <router-link :to="{ name: 'Signup' }">Signup</router-link>
           </li>
-          <li>
+          <li v-if="!user">
             <router-link :to="{ name: 'Login' }">Login</router-link>
           </li>
-          <li>
+          <li v-if="this.user">{{ user.email }}</li>
+          <li v-if="this.user">
             <a @click.prevent="logout">Logout</a>
           </li>
         </ul>
@@ -25,7 +26,7 @@ export default {
   name: "Navbar",
   data() {
     return {
-      loggedIn: false
+      user: null
     };
   },
   methods: {
@@ -36,7 +37,15 @@ export default {
         .then(() => this.$router.push({ name: "Login" }));
     }
   },
-  login() {}
+  created() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.user = user;
+      } else {
+        this.user = null;
+      }
+    });
+  }
 };
 </script>
 

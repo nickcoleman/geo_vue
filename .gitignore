@@ -15,3 +15,4 @@ yarn-error.log*
 
 # user added
 env.js
+init.js
