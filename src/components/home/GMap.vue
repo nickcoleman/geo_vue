@@ -12,7 +12,8 @@ export default {
   data() {
     return {
       lat: 40.75,
-      lng: -111.61
+      lng: -111.61,
+      locations: []
     };
   },
   methods: {
@@ -24,6 +25,28 @@ export default {
         minZoom: 3,
         streetViewControl: false
       });
+
+      db.collection("users")
+        .get()
+        .then(users => {
+          users.docs.forEach(doc => {
+            const data = doc.data();
+            if (data.geolocation) {
+              const { lat, lng } = data.geolocation;
+              const marker = new google.maps.Marker({
+                position: {
+                  lat,
+                  lng
+                },
+                map
+              });
+              // add click event to marker
+              marker.addListener("click", () => {
+                console.log(`xxx ${doc.id}`);
+              });
+            }
+          });
+        });
     }
   },
   mounted() {
@@ -35,7 +58,6 @@ export default {
         pos => {
           this.lat = pos.coords.latitude;
           this.lng = pos.coords.longitude;
-          console.log("xxx ", this.lat, this.lng);
           // find the user record and then update geocoords
           db.collection("users")
             .where("user_id", "==", user.uid)
