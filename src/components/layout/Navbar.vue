@@ -2,10 +2,14 @@
   <div class="navbar">
     <nav class="deep-purple darken-1">
       <div class="container">
-        <a href="" class="brand-logo left">Geo View</a>
+        <a href class="brand-logo left">GeoNinjas!</a>
         <ul class="right">
-          <li><a href="">Signup</a></li>
-          <li><a href="">Login</a></li>
+          <li>
+            <router-link :to="{ name: 'Signup' }">Signup</router-link>
+          </li>
+          <li>
+            <a href>Login</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -14,13 +18,12 @@
 
 <script>
 export default {
-  name: 'Navbar',
+  name: "Navbar",
   data() {
-    return {}
+    return {};
   }
-}
+};
 </script>
 
 <style>
-
 </style>
