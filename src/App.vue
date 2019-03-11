@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navbar />
+    <Navbar/>
     <router-view/>
   </div>
 </template>
@@ -11,10 +11,12 @@ export default {
   name: 'App',
   components: {
     Navbar,
-  }
+  },
 }
 </script>
 
 <style>
-
+body {
+  background-color: #ddd;
+}
 </style>

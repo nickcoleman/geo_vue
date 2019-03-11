@@ -1,34 +1,43 @@
-import Vue from "vue"
-import Router from "vue-router"
-import firebase from "firebase"
+import Vue from 'vue'
+import Router from 'vue-router'
+import firebase from 'firebase'
 
-import GMap from "@/components/home/GMap"
-import Signup from "@/components/auth/Signup"
-import Login from "@/components/auth/Login"
+import GMap from '@/components/home/GMap'
+import Signup from '@/components/auth/Signup'
+import Login from '@/components/auth/Login'
+import ViewProfile from '@/components/profile/ViewProfile'
 
 Vue.use(Router)
 
 const router = new Router({
   routes: [
     {
-      path: "/",
-      name: "GMap",
+      path: '/',
+      name: 'GMap',
       component: GMap,
       meta: {
-        requiresAuth: true
-      }
+        requiresAuth: true,
+      },
     },
     {
-      path: "/signup",
-      name: "Signup",
-      component: Signup
+      path: '/signup',
+      name: 'Signup',
+      component: Signup,
     },
     {
-      path: "/login",
-      name: "Login",
-      component: Login
-    }
-  ]
+      path: '/login',
+      name: 'Login',
+      component: Login,
+    },
+    {
+      path: '/profile/:id',
+      name: 'ViewProfile',
+      component: ViewProfile,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+  ],
 })
 
 router.beforeEach((to, from, next) => {
@@ -41,7 +50,7 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       // user not signed in -- go to sign in page
-      next({ name: "Login" })
+      next({ name: 'Login' })
     }
   } else {
     next()

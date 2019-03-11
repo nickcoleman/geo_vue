@@ -5,91 +5,95 @@
 </template>
 
 <script>
-import firebase from "firebase";
-import db from "@/firebase/init";
+import firebase from 'firebase'
+import db from '@/firebase/init'
 export default {
-  name: "GMap",
+  name: 'GMap',
   data() {
     return {
       lat: 40.75,
       lng: -111.61,
-      locations: []
-    };
+      locations: [],
+    }
   },
   methods: {
     renderMap() {
-      const map = new google.maps.Map(document.getElementById("map"), {
+      const map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: this.lat, lng: this.lng },
         zoom: 6,
         maxZoom: 15,
         minZoom: 3,
-        streetViewControl: false
-      });
+        streetViewControl: false,
+      })
 
-      db.collection("users")
+      db.collection('users')
         .get()
         .then(users => {
           users.docs.forEach(doc => {
-            const data = doc.data();
+            const data = doc.data()
             if (data.geolocation) {
-              const { lat, lng } = data.geolocation;
+              const { lat, lng } = data.geolocation
               const marker = new google.maps.Marker({
                 position: {
                   lat,
-                  lng
+                  lng,
                 },
-                map
-              });
+                map,
+              })
               // add click event to marker
-              marker.addListener("click", () => {
-                console.log(`xxx ${doc.id}`);
-              });
+              marker.addListener('click', () => {
+                console.log(`xxx ${doc.id}`)
+                this.$router.push({
+                  name: 'ViewProfile',
+                  params: { id: doc.id },
+                })
+              })
             }
-          });
-        });
-    }
+          })
+        })
+    },
   },
   mounted() {
     // get current user
-    let user = firebase.auth().currentUser;
+    let user = firebase.auth().currentUser
     //get current location
     if (navigator.geolocation && user) {
       navigator.geolocation.getCurrentPosition(
         pos => {
-          this.lat = pos.coords.latitude;
-          this.lng = pos.coords.longitude;
+          this.lat = pos.coords.latitude
+          this.lng = pos.coords.longitude
           // find the user record and then update geocoords
-          db.collection("users")
-            .where("user_id", "==", user.uid)
+          db.collection('users')
+            .where('user_id', '==', user.uid)
             .get()
             .then(snapshot => {
               snapshot.forEach(doc => {
-                db.collection("users")
+                db.collection('users')
                   .doc(doc.id)
                   .update({
                     geolocation: {
                       lat: pos.coords.latitude,
-                      lng: pos.coords.longitude
-                    }
-                  });
-              });
+                      lng: pos.coords.longitude,
+                    },
+                  })
+              })
             })
             .then(() => {
-              this.renderMap();
-            });
+              this.renderMap()
+            })
         },
         err => {
           // timeout, use default values
-          this.renderMap();
+          this.renderMap()
         },
         { maximumAge: 60000, timeout: 4000 }
-      ); // cached location
+      ) // cached location
     } else {
       // position centre by default values
-      this.renderMap();
+      this.renderMap()
     }
-  }
-};
+  },
+}
 </script>
 
 <style>
