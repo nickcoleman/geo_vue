@@ -10,6 +10,7 @@ import ViewProfile from '@/components/profile/ViewProfile'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history', // comment out in dev
   routes: [
     {
       path: '/',
