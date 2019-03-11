@@ -64,11 +64,9 @@ export default {
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          console.log('xxx doc', doc.data)
           this.user = doc.data()
           this.user.id = doc.id
         })
-        console.log('xxx user', this.user)
       })
 
     // profile
@@ -84,7 +82,6 @@ export default {
       .where('to', '==', this.$route.params.id)
       .onSnapshot(snapshot => {
         // watches for db changes realtime
-        console.log('xxx changes', snapshot.docChanges())
         snapshot.docChanges().forEach(change => {
           if (change.type == 'added') {
             this.comments.unshift({
